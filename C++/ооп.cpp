@@ -51,9 +51,9 @@ public:
     }
 };
 
-void AddEmptyObject(int &productCount, int MAX, FoodProduct* products)
+void AddEmptyObject(int &productCount, int max, FoodProduct* products)
 {
-    if (productCount < MAX) {
+    if (productCount < max) {
         products[productCount] = FoodProduct();
         productCount++;
         cout << "Пустой объект добавлен" << endl;
@@ -63,9 +63,9 @@ void AddEmptyObject(int &productCount, int MAX, FoodProduct* products)
     }
 }
 
-void AddObject(int &productCount, int MAX, FoodProduct* products)
+void AddObject(int &productCount, int max, FoodProduct* products)
 {
-    if (productCount < MAX) {
+    if (productCount < max) {
         string name;
         string manufacturer;
         float price;
@@ -95,7 +95,7 @@ void AddObject(int &productCount, int MAX, FoodProduct* products)
     }
 }
 
-void Edit(int productCount, int MAX, FoodProduct* products)
+void Edit(int productCount, FoodProduct* products)
 {
     if (productCount == 0) {
         cout << "Нет доступных объектов для редактирования" << endl;
@@ -155,7 +155,7 @@ void Edit(int productCount, int MAX, FoodProduct* products)
     }
 }
 
-void View(int productCount, int MAX, FoodProduct* products)
+void View(int productCount, FoodProduct* products)
 {
     if (productCount == 0) {
         cout << "Нет объектов для вывода" << endl;
@@ -168,7 +168,7 @@ void View(int productCount, int MAX, FoodProduct* products)
     }
 }
 
-void Sort(int productCount, int MAX, FoodProduct* products)
+void Sort(int productCount, FoodProduct* products)
 {
     if (productCount == 0) {
         cout << "Нет объектов для сортировки" << endl;
@@ -218,8 +218,8 @@ void Sort(int productCount, int MAX, FoodProduct* products)
 int main() {
     setlocale(LC_ALL, "Ru");
 
-    const int MAX = 100;
-    FoodProduct products[MAX];
+    const int max = 100;
+    FoodProduct products[max];
     
     int productCount = 0;
     int choice = 123;
@@ -237,19 +237,19 @@ int main() {
 
         switch (choice) {
         case 1:
-            AddEmptyObject(productCount, MAX, products);
+            AddEmptyObject(productCount, max, products);
             break;
         case 2:
-            AddObject(productCount, MAX, products);
+            AddObject(productCount, max, products);
             break;
         case 3:
-            Edit(productCount, MAX, products);
+            Edit(productCount, products);
             break;
         case 4:
-            View(productCount, MAX, products);
+            View(productCount, products);
             break;
         case 5:
-            Sort(productCount, MAX, products);
+            Sort(productCount, products);
             break;
         case 0:
             cout << "Выход" << endl;
@@ -259,5 +259,4 @@ int main() {
             break;
         }
     }
-    return 0;
 }
