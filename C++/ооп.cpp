@@ -115,33 +115,33 @@ void Edit(int productCount, FoodProduct* products)
             cout << "4. Вес" << endl;
             cout << "5. Состояние (0 - свежий, 1 - испорчен)" << endl;
 
-            int fieldChoice;
-            cin >> fieldChoice;
-            if (fieldChoice == 1) {
+            int Choice;
+            cin >> Choice;
+            if (Choice == 1) {
                 string newName;
                 cout << "Введите новое название: ";
                 cin >> newName;
                 products[index].setName(newName);
             }
-            else if (fieldChoice == 2) {
+            else if (Choice == 2) {
                 string newManufacturer;
                 cout << "Введите нового производителя: ";
                 cin >> newManufacturer;
                 products[index].setManufacturer(newManufacturer);
             }
-            else if (fieldChoice == 3) {
+            else if (Choice == 3) {
                 float newPrice;
                 cout << "Введите новую цену: ";
                 cin >> newPrice;
                 products[index].setPrice(newPrice);
             }
-            else if (fieldChoice == 4) {
+            else if (Choice == 4) {
                 int newWeight;
                 cout << "Введите новый вес: ";
                 cin >> newWeight;
                 products[index].setWeight(newWeight);
             }
-            else if (fieldChoice == 5) {
+            else if (Choice == 5) {
                 int newStatus;
                 cout << "Введите состояние (0 - свежий, 1 - испорчен): ";
                 cin >> newStatus;
