@@ -20,7 +20,7 @@ public:
         isSpoiled = false;
     }
 
-    FoodProduct(const string& name, const string& manufacturer, float price, int weight, bool isSpoile)
+    FoodProduct(const string& name, const string& manufacturer, float price, int weight, bool isSpoiled)
     {
         this->name = name;
         this->manufacturer = manufacturer;
@@ -218,11 +218,10 @@ int main() {
     setlocale(LC_ALL, "Ru");
 
     const int max = 100;
-    FoodProduct products[max];
-    
+    FoodProduct* products = new FoodProduct[max];
     int productCount = 0;
-    int choice = 123;
 
+    int choice = 123;
     while (choice != 0) {
         cout << "\nМеню:" << endl;
         cout << "1. Добавить пустой объект (конструктор по умолчанию)" << endl;
@@ -258,4 +257,5 @@ int main() {
             break;
         }
     }
+    delete[] products;
 }
