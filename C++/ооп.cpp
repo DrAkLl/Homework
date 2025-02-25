@@ -114,36 +114,35 @@ void Edit(int productCount, FoodProduct* products)
             cout << "3. Цена" << endl;
             cout << "4. Вес" << endl;
             cout << "5. Состояние (0 - свежий, 1 - испорчен)" << endl;
-
-            int Choice;
-            cin >> Choice;
-            if (Choice == 1) {
-                string newName;
+            int editChoice;
+            cin >> editChoice;
+            if (editChoice == 1) {
                 cout << "Введите новое название: ";
+                string newName;
                 cin >> newName;
                 products[index].setName(newName);
             }
-            else if (Choice == 2) {
-                string newManufacturer;
+            else if (editChoice == 2) {
                 cout << "Введите нового производителя: ";
+                string newManufacturer;
                 cin >> newManufacturer;
                 products[index].setManufacturer(newManufacturer);
             }
-            else if (Choice == 3) {
-                float newPrice;
+            else if (editChoice == 3) {
                 cout << "Введите новую цену: ";
+                float newPrice;
                 cin >> newPrice;
                 products[index].setPrice(newPrice);
             }
-            else if (Choice == 4) {
-                int newWeight;
+            else if (editChoice == 4) {
                 cout << "Введите новый вес: ";
+                int newWeight;
                 cin >> newWeight;
                 products[index].setWeight(newWeight);
             }
-            else if (Choice == 5) {
-                int newStatus;
+            else if (editChoice == 5) {
                 cout << "Введите состояние (0 - свежий, 1 - испорчен): ";
+                int newStatus;
                 cin >> newStatus;
                 products[index].setIsSpoiled(newStatus != 0);
             }
@@ -205,9 +204,9 @@ void Sort(int productCount, FoodProduct* products)
                         needSwap = true;
                 }
                 if (needSwap) {
-                    FoodProduct temp = products[j];
+                    FoodProduct t = products[j];
                     products[j] = products[j + 1];
-                    products[j + 1] = temp;
+                    products[j + 1] = t;
                 }
             }
         }
