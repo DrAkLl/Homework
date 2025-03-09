@@ -1,6 +1,8 @@
 #include <iostream>
 using namespace std;
 
+class B;
+
 class A {
 
     int a, b;
@@ -12,12 +14,10 @@ public:
         b = 0;
     }
 
-
     A(int a, int b) {
         this->a = a;
         this->b = b;
     }
-
 
     friend int sum(const A &a, const B &b);
 };
@@ -38,10 +38,8 @@ public:
         this->y = y;
     }
 
-
     friend int sum(const A &a, const B &b);
 };
-
 
 int sum(const A &obj1, const B &obj2) {
     return obj1.a + obj1.b + obj2.x + obj2.y;
