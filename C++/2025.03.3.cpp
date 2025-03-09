@@ -51,4 +51,5 @@ int main() {
     B obj2(30, 40);
 
     cout << "Сумма всех полей: " << sum(obj1, obj2) << endl;
+    cout << "сумма полей: " << sum(obj1, obj2) << endl;
 }
