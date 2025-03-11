@@ -121,7 +121,7 @@ int main() {
         
         if (choice == 1) {
             if (count >= max) {
-                cout << "Нет места для добавления новых автомобилей" << endl;
+                cout << "Нет места для добавления" << endl;
                 continue;
             }
             string brand, model;
@@ -142,7 +142,7 @@ int main() {
         }
         else if (choice == 2) {
             if (count >= max) {
-                cout << "Нет места для добавления новых автомобилей" << endl;
+                cout << "Нет места для добавления" << endl;
                 continue;
             }
             string brand, model;
