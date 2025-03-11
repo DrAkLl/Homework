@@ -2,12 +2,15 @@
 #include <string>
 using namespace std;
 
-
 // Вычислительная машина
 class ComputingMachine {
 protected:
     string model;
     int power;
+
+    bool compareBase(const ComputingMachine& other) const {
+        return (model == other.model && power == other.power);
+    }
 
 public:
     ComputingMachine() {
@@ -20,8 +23,7 @@ public:
         if (power < 0) {
             cout << "Ошибка: мощность не может быть отрицательной. Устанавлино 0." << endl;
             this->power = 0;
-        }
-        else {
+        } else {
             this->power = power;
         }
     }
@@ -68,23 +70,22 @@ public:
         if (ram < 0) {
             cout << "Ошибка: ОЗУ не может быть отрицательным. Устанавлино 0." << endl;
             this->ram = 0;
-        }
-        else {
+        } else {
             this->ram = ram;
         }
     }
 
     virtual void printInfo() const override {
-        ComputingMachine::printInfo();
+        cout << "Модель: " << model << endl;
+        cout << "Мощность: " << power << endl;
         cout << "Процессор: " << cpu << endl;
         cout << "ОЗУ: " << ram << endl;
     }
 
     virtual bool operator==(const ComputingMachine& other) const override {
         const PC* pc = dynamic_cast<const PC*>(&other);
-        if (pc) {
-            return (ComputingMachine::operator==(other) && cpu == pc->cpu && ram == pc->ram);
-        }
+        if (pc)
+            return compareBase(other) && (cpu == pc->cpu) && (ram == pc->ram);
         return false;
     }
 
@@ -96,14 +97,14 @@ public:
             string newCpu = cpu + " " + pc->cpu;
             int newRam = ram + pc->ram;
             return PC(newModel, newPower, newCpu, newRam);
-        }
-        else {
+        } else {
             return *this;
         }
     }
 
     virtual PC& operator++() override {
-        ComputingMachine::operator++();
+        power++;
+        model += "*";
         ram++;
         cpu += "+";
         return *this;
@@ -127,24 +128,26 @@ public:
         if (batteryLife < 0) {
             cout << "Ошибка: время работы батареи не может быть отрицательным. Устанавлино 0." << endl;
             this->batteryLife = 0;
-        }
-        else {
+        } else {
             this->batteryLife = batteryLife;
         }
         this->batteryType = batteryType;
     }
 
     virtual void printInfo() const override {
-        PC::printInfo();
+        cout << "Модель: " << model << endl;
+        cout << "Мощность: " << power << endl;
+        cout << "Процессор: " << cpu << endl;
+        cout << "ОЗУ: " << ram << endl;
         cout << "Время работы батареи: " << batteryLife << " часов" << endl;
         cout << "Тип батареи: " << batteryType << endl;
     }
 
     virtual bool operator==(const ComputingMachine& other) const override {
         const Laptop* lp = dynamic_cast<const Laptop*>(&other);
-        if (lp) {
-            return (PC::operator==(other) && batteryLife == lp->batteryLife && batteryType == lp->batteryType);
-        }
+        if (lp)
+            return compareBase(other) && (cpu == lp->cpu) && (ram == lp->ram) &&
+                   (batteryLife == lp->batteryLife) && (batteryType == lp->batteryType);
         return false;
     }
 
@@ -159,13 +162,14 @@ public:
             string newBatteryType = batteryType + " " + lp->batteryType;
             return Laptop(newModel, newPower, newCpu, newRam, newBatteryLife, newBatteryType);
         }
-        else {
-            return *this;
-        }
+        return *this;
     }
 
     virtual Laptop& operator++() override {
-        PC::operator++();
+        power++;
+        model += "*";
+        ram++;
+        cpu += "+";
         batteryLife++;
         batteryType += "+";
         return *this;
@@ -189,24 +193,23 @@ public:
         if (screenSize < 0) {
             cout << "Ошибка: размер экрана не может быть отрицательным. Устанавлино 0." << endl;
             this->screenSize = 0;
-        }
-        else {
+        } else {
             this->screenSize = screenSize;
         }
         this->os = os;
     }
 
     virtual void printInfo() const override {
-        ComputingMachine::printInfo();
+        cout << "Модель: " << model << endl;
+        cout << "Мощность: " << power << endl;
         cout << "Размер экрана: " << screenSize << " дюймов" << endl;
         cout << "ОС: " << os << endl;
     }
 
     virtual bool operator==(const ComputingMachine& other) const override {
         const Tablet* tb = dynamic_cast<const Tablet*>(&other);
-        if (tb) {
-            return (ComputingMachine::operator==(other) && screenSize == tb->screenSize && os == tb->os);
-        }
+        if (tb)
+            return compareBase(other) && (screenSize == tb->screenSize) && (os == tb->os);
         return false;
     }
 
@@ -219,16 +222,14 @@ public:
             string newOs = os + " " + tb->os;
             return Tablet(newModel, newPower, newScreenSize, newOs);
         }
-        else {
-            return *this;
-        }
+        return *this;
     }
 
     virtual Tablet& operator++() override {
         power++;
+        model += "*";
         screenSize++;
         os += "+";
-        model += "*";
         return *this;
     }
 };
@@ -257,113 +258,113 @@ void AddElement(int& count, const int max, ComputingMachine** machines) {
     string tempStr;
     int tempInt;
     switch (typeChoice) {
-    case 1: {
-        string model;
-        int power;
-        cout << "Введите модель: ";
-        cin >> model;
-        cout << "Введите мощность (>=0): ";
-        if (!(cin >> tempInt)) {
-            cout << "Ошибка ввода, элемент не добавлен" << endl;
-            cin.clear();
-            cin.ignore(1000, '\n');
-            return;
+        case 1: {
+            string model;
+            int power;
+            cout << "Введите модель: ";
+            cin >> model;
+            cout << "Введите мощность (>=0): ";
+            if (!(cin >> tempInt)) {
+                cout << "Ошибка ввода, элемент не добавлен" << endl;
+                cin.clear();
+                cin.ignore(1000, '\n');
+                return;
+            }
+            power = tempInt;
+            machines[count++] = new ComputingMachine(model, power);
+            break;
         }
-        power = tempInt;
-        machines[count++] = new ComputingMachine(model, power);
-        break;
-    }
-    case 2: {
-        string model, cpu;
-        int power, ram;
-        cout << "Введите модель: ";
-        cin >> model;
-        cout << "Введите мощность (>=0): ";
-        if (!(cin >> tempInt)) {
-            cout << "Ошибка ввода, элемент не добавлен" << endl;
-            cin.clear();
-            cin.ignore(1000, '\n');
-            return;
+        case 2: {
+            string model, cpu;
+            int power, ram;
+            cout << "Введите модель: ";
+            cin >> model;
+            cout << "Введите мощность (>=0): ";
+            if (!(cin >> tempInt)) {
+                cout << "Ошибка ввода, элемент не добавлен" << endl;
+                cin.clear();
+                cin.ignore(1000, '\n');
+                return;
+            }
+            power = tempInt;
+            cout << "Введите тип процессора: ";
+            cin >> cpu;
+            cout << "Введите объём ОЗУ (>=0): ";
+            if (!(cin >> tempInt)) {
+                cout << "Ошибка ввода, элемент не добавлен" << endl;
+                cin.clear();
+                cin.ignore(1000, '\n');
+                return;
+            }
+            ram = tempInt;
+            machines[count++] = new PC(model, power, cpu, ram);
+            break;
         }
-        power = tempInt;
-        cout << "Введите тип процессора: ";
-        cin >> cpu;
-        cout << "Введите объём ОЗУ (>=0): ";
-        if (!(cin >> tempInt)) {
-            cout << "Ошибка ввода, элемент не добавлен" << endl;
-            cin.clear();
-            cin.ignore(1000, '\n');
-            return;
+        case 3: {
+            string model, cpu, batteryType;
+            int power, ram, batteryLife;
+            cout << "Введите модель: ";
+            cin >> model;
+            cout << "Введите мощность (>=0): ";
+            if (!(cin >> tempInt)) {
+                cout << "Ошибка ввода, элемент не добавлен" << endl;
+                cin.clear();
+                cin.ignore(1000, '\n');
+                return;
+            }
+            power = tempInt;
+            cout << "Введите тип процессора: ";
+            cin >> cpu;
+            cout << "Введите объём ОЗУ (>=0): ";
+            if (!(cin >> tempInt)) {
+                cout << "Ошибка ввода, элемент не добавлен" << endl;
+                cin.clear();
+                cin.ignore(1000, '\n');
+                return;
+            }
+            ram = tempInt;
+            cout << "Введите время работы батареи (>=0): ";
+            if (!(cin >> tempInt)) {
+                cout << "Ошибка ввода, элемент не добавлен" << endl;
+                cin.clear();
+                cin.ignore(1000, '\n');
+                return;
+            }
+            batteryLife = tempInt;
+            cout << "Введите тип батареи: ";
+            cin >> batteryType;
+            machines[count++] = new Laptop(model, power, cpu, ram, batteryLife, batteryType);
+            break;
         }
-        ram = tempInt;
-        machines[count++] = new PC(model, power, cpu, ram);
-        break;
-    }
-    case 3: {
-        string model, cpu, batteryType;
-        int power, ram, batteryLife;
-        cout << "Введите модель: ";
-        cin >> model;
-        cout << "Введите мощность (>=0): ";
-        if (!(cin >> tempInt)) {
-            cout << "Ошибка ввода, элемент не добавлен" << endl;
-            cin.clear();
-            cin.ignore(1000, '\n');
-            return;
+        case 4: {
+            string model, os;
+            int power, screenSize;
+            cout << "Введите модель: ";
+            cin >> model;
+            cout << "Введите мощность (>=0): ";
+            if (!(cin >> tempInt)) {
+                cout << "Ошибка ввода, элемент не добавлен" << endl;
+                cin.clear();
+                cin.ignore(1000, '\n');
+                return;
+            }
+            power = tempInt;
+            cout << "Введите размер экрана (>=0): ";
+            if (!(cin >> tempInt)) {
+                cout << "Ошибка ввода, элемент не добавлен" << endl;
+                cin.clear();
+                cin.ignore(1000, '\n');
+                return;
+            }
+            screenSize = tempInt;
+            cout << "Введите операционную систему: ";
+            cin >> os;
+            machines[count++] = new Tablet(model, power, screenSize, os);
+            break;
         }
-        power = tempInt;
-        cout << "Введите тип процессора: ";
-        cin >> cpu;
-        cout << "Введите объём ОЗУ (>=0): ";
-        if (!(cin >> tempInt)) {
-            cout << "Ошибка ввода, элемент не добавлен" << endl;
-            cin.clear();
-            cin.ignore(1000, '\n');
-            return;
-        }
-        ram = tempInt;
-        cout << "Введите время работы батареи (>=0): ";
-        if (!(cin >> tempInt)) {
-            cout << "Ошибка ввода, элемент не добавлен" << endl;
-            cin.clear();
-            cin.ignore(1000, '\n');
-            return;
-        }
-        batteryLife = tempInt;
-        cout << "Введите тип батареи: ";
-        cin >> batteryType;
-        machines[count++] = new Laptop(model, power, cpu, ram, batteryLife, batteryType);
-        break;
-    }
-    case 4: {
-        string model, os;
-        int power, screenSize;
-        cout << "Введите модель: ";
-        cin >> model;
-        cout << "Введите мощность (>=0): ";
-        if (!(cin >> tempInt)) {
-            cout << "Ошибка ввода, элемент не добавлен" << endl;
-            cin.clear();
-            cin.ignore(1000, '\n');
-            return;
-        }
-        power = tempInt;
-        cout << "Введите размер экрана (>=0): ";
-        if (!(cin >> tempInt)) {
-            cout << "Ошибка ввода, элемент не добавлен" << endl;
-            cin.clear();
-            cin.ignore(1000, '\n');
-            return;
-        }
-        screenSize = tempInt;
-        cout << "Введите операционную систему: ";
-        cin >> os;
-        machines[count++] = new Tablet(model, power, screenSize, os);
-        break;
-    }
-    default:
-        cout << "Некорректный выбор" << endl;
-        break;
+        default:
+            cout << "Некорректный выбор" << endl;
+            break;
     }
     cout << "Элемент добавлен" << endl;
 }
@@ -442,7 +443,7 @@ int main() {
     setlocale(LC_ALL, "ru");
 
     const int max = 100;
-    ComputingMachine** machines = new ComputingMachine * [max];
+    ComputingMachine** machines = new ComputingMachine*[max];
     int count = 0;
 
     int choice = 123;
@@ -461,24 +462,24 @@ int main() {
             continue;
         }
         switch (choice) {
-        case 1:
-            AddElement(count, max, machines);
-            break;
-        case 2:
-            RemoveElement(count, machines);
-            break;
-        case 3:
-            ViewElements(count, machines);
-            break;
-        case 4:
-            CompareElements(count, machines);
-            break;
-        case 0:
-            cout << "Завершение работы" << endl;
-            break;
-        default:
-            cout << "Введите число от 0 до 4" << endl;
-            break;
+            case 1:
+                AddElement(count, max, machines);
+                break;
+            case 2:
+                RemoveElement(count, machines);
+                break;
+            case 3:
+                ViewElements(count, machines);
+                break;
+            case 4:
+                CompareElements(count, machines);
+                break;
+            case 0:
+                cout << "Завершение работы" << endl;
+                break;
+            default:
+                cout << "Введите число от 0 до 4" << endl;
+                break;
         }
     }
     delete[] machines;
