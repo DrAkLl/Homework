@@ -49,60 +49,50 @@ using namespace std;
 
 class Vehicle {
 protected:
-
     string brand;
     string model;
     
 public:
-
     Vehicle() : brand(""), model("") { }
-    Vehicle(const string &brand, const string &model) {
-        this->brand = brand;
-        this->model = model;
-    }
+    Vehicle(const string &brand, const string &model) : brand(brand), model(model) { }
     
     virtual void printInfo() const {
         cout << "Марка: " << brand << ", модель: " << model;
     }
     
     virtual ~Vehicle() { }
-    
 };
 
 class PassengerCar : public Vehicle {
 private:
-
     int seatCount;
     
 public:
-
     PassengerCar() : Vehicle(), seatCount(0) { }
-    PassengerCar(const string &brand, const string &model, int seatCount) 
+    PassengerCar(const string &brand, const string &model, int seatCount)
         : Vehicle(brand, model), seatCount(seatCount) { }
+    
     void printInfo() const override {
         cout << "Легковой автомобиль -> ";
         Vehicle::printInfo();
         cout << ", Количество мест: " << seatCount;
     }
-    
 };
 
 class Truck : public Vehicle {
 private:
-
     float loadCapacity;
     
 public:
-
     Truck() : Vehicle(), loadCapacity(0.0f) { }
     Truck(const string &brand, const string &model, float loadCapacity)
         : Vehicle(brand, model), loadCapacity(loadCapacity) { }
+    
     void printInfo() const override {
         cout << "Грузовой автомобиль -> ";
         Vehicle::printInfo();
         cout << ", Грузоподъемность: " << loadCapacity << " тонн";
     }
-    
 };
 
 int main() {
@@ -113,23 +103,24 @@ int main() {
     
     int count = 0;
     int choice = -1;
-
-    while (choice = 0) {
+    
+    while (choice != 0) {
         cout << "\nМеню автопарка:" << endl;
         cout << "1. Добавить легковой автомобиль" << endl;
         cout << "2. Добавить грузовой автомобиль" << endl;
         cout << "3. Показать все автомобили" << endl;
         cout << "0. Выход" << endl;
         cout << "Ваш выбор: ";
-        if ((cin >> choice)) {
+        
+        if (!(cin >> choice)) {
             cout << "Ошибка ввода" << endl;
             cin.clear();
             cin.ignore(1000, '\n');
             continue;
         }
-
+        
         if (choice == 1) {
-            if (count >= maxVehicles) {
+            if (count >= max) {
                 cout << "Нет места для добавления новых автомобилей" << endl;
                 continue;
             }
@@ -140,7 +131,7 @@ int main() {
             cout << "Введите модель: ";
             cin >> model;
             cout << "Введите количество мест: ";
-            if ((cin >> seats)) {
+            if (!(cin >> seats)) {
                 cout << "Ошибка ввода" << endl;
                 cin.clear();
                 cin.ignore(1000, '\n');
@@ -150,7 +141,7 @@ int main() {
             cout << "Легковой автомобиль добавлен." << endl;
         }
         else if (choice == 2) {
-            if (count >= maxVehicles) {
+            if (count >= max) {
                 cout << "Нет места для добавления новых автомобилей" << endl;
                 continue;
             }
@@ -161,7 +152,7 @@ int main() {
             cout << "Введите модель: ";
             cin >> model;
             cout << "Введите грузоподъемность (в тоннах): ";
-            if ((cin >> capacity)) {
+            if (!(cin >> capacity)) {
                 cout << "Ошибка ввода" << endl;
                 cin.clear();
                 cin.ignore(1000, '\n');
@@ -178,9 +169,9 @@ int main() {
                 cout << "\nСписок автомобилей:" << endl;
                 for (int i = 0; i < count; i++) {
                     fleet[i]->printInfo();
-                    if (dynamic_cast<PassengerCar*>(fleet[i]) = nullptr)
+                    if (dynamic_cast<PassengerCar*>(fleet[i]) != nullptr)
                         cout << " (Тип: Легковой)";
-                    else if (dynamic_cast<Truck*>(fleet[i]) = nullptr)
+                    else if (dynamic_cast<Truck*>(fleet[i]) != nullptr)
                         cout << " (Тип: Грузовой)";
                     else
                         cout << " (Тип: Неизвестный)";
@@ -195,5 +186,4 @@ int main() {
             cout << "Введите корректное число от 0 до 3." << endl;
         }
     }
-    delete[] fleet;
 }
