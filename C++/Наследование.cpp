@@ -47,7 +47,7 @@ public:
         int newPower = power + other.power;
         return ComputingMachine(newModel, newPower);
     }
-    
+
     virtual ComputingMachine& operator++() {
         power++;
         model += "*";
@@ -69,8 +69,7 @@ public:
         ram = 0;
     }
 
-    PC(const string& model, int power, const string& cpu, int ram)
-        : ComputingMachine(model, power) {
+    PC(const string& model, int power, const string& cpu, int ram) : ComputingMachine(model, power) {
         this->cpu = cpu;
         if (ram < 0) {
             cout << "Ошибка: ОЗУ не может быть < 0. Устанавлино 0." << endl;
@@ -132,8 +131,7 @@ public:
         batteryType = "";
     }
 
-    Laptop(const string& model, int power, const string& cpu, int ram, int batteryLife, const string& batteryType)
-        : PC(model, power, cpu, ram) {
+    Laptop(const string& model, int power, const string& cpu, int ram, int batteryLife, const string& batteryType) : PC(model, power, cpu, ram) {
         if (batteryLife < 0) {
             cout << "Ошибка: время работы батареи не может быть < 0. Устанавлино 0." << endl;
             this->batteryLife = 0;
@@ -199,8 +197,7 @@ public:
         os = "";
     }
 
-    Tablet(const string& model, int power, int screenSize, const string& os)
-        : ComputingMachine(model, power) {
+    Tablet(const string& model, int power, int screenSize, const string& os) : ComputingMachine(model, power) {
         if (screenSize < 0) {
             cout << "Ошибка: размер экрана не может быть < 0. Устанавлино 0." << endl;
             this->screenSize = 0;
