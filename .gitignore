@@ -1,3 +1,5 @@
 .gitattributes
+.vscode
+.vscode/settings.json
 C++/123.cpp
 C++/eee.cpp
