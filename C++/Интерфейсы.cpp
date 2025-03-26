@@ -342,7 +342,7 @@ public:
 class ConsonantCount : public StringAnalyzer {
     bool isConsonant(char c) {
         if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')) {
-            char lower = c | 0x20; // to lowercase
+            char lower = c | 0x20;
             return lower != 'a' && lower != 'e' && lower != 'i' && 
                    lower != 'o' && lower != 'u';
         }
@@ -360,15 +360,23 @@ public:
 
 int main() {
     setlocale(LC_ALL, "ru");
-
     char str[100];
-    cout << "Enter string: ";
+    
+    cout << "Введите строку (только латинские): ";
     cin.ignore();
     cin.getline(str, 100);
+
+    for (int i = 0; str[i]; i++) {
+        if (!((str[i] >= 'A' && str[i] <= 'Z') || 
+            (str[i] >= 'a' && str[i] <= 'z'))) {
+            cout << "Допустимы только символы латинского алфавита!\n";
+            return 1;
+        }
+    }
     
-    VowelCount v;
-    ConsonantCount c;
+    VowelCount vowelCounter;
+    ConsonantCount consonantCounter;
     
-    cout << "Vowels: " << v.analyse(str) << "\n";
-    cout << "Consonants: " << c.analyse(str) << "\n";
+    cout << "Гласных букв: " << vowelCounter.analyse(str) << endl;
+    cout << "Согласных букв: " << consonantCounter.analyse(str) << endl;
 }
