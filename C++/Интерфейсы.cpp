@@ -3,25 +3,25 @@ using namespace std;
 
 class Folder {
 public:
-    virtual int fold(int arr[], int size) = 0;
+    virtual int fold(int pop[], int size) = 0;
 };
 
-class SumFolder : public Folder {
+class Sum : public Folder {
 public:
-    int fold(int arr[], int size) override {
+    int fold(int pop[], int size) override {
         int sum = 0;
         for (int i = 0; i < size; i++) 
-            sum += arr[i];
+            sum += pop[i];
         return sum;
     }
 };
 
-class ProductFolder : public Folder {
+class Product : public Folder {
 public:
-    int fold(int arr[], int size) override {
+    int fold(int pop[], int size) override {
         int p = 1;
         for (int i = 0; i < size; i++) 
-            p *= arr[i];
+            p *= pop[i];
         return p;
     }
 };
@@ -33,14 +33,16 @@ int main() {
     cout << "Размер массива: ";
     cin >> size;
     
-    int* arr = new int[size];
+    int* pop = new int[size];
+
     cout << "Введите элементы: ";
-    for (int i = 0; i < size; i++) cin >> arr[i];
+    for (int i = 0; i < size; i++) cin >> pop[i];
     
-    SumFolder s;
-    ProductFolder p;
+    Sum s;
+    Product p;
     
-    cout << "Сумма: " << s.fold(arr, size) << endl;
-    cout << "Произведение: " << p.fold(arr, size) << endl;
-    delete[] arr;
+    cout << "Сумма: " << s.fold(pop, size) << endl;
+    cout << "Произведение: " << p.fold(pop, size) << endl;
+
+    delete[] pop;
 }
