@@ -104,3 +104,237 @@ int main() {
     cout << "Взаимно простые? " << (cp.match(a, b) ? "Да" : "Нет") << endl;
 }
 
+// 3 --------------------
+#include <iostream>
+using namespace std;
+
+class Folder {
+public:
+    virtual int fold(int arr[], int size) = 0;
+};
+
+class SumFolder : public Folder {
+public:
+    int fold(int arr[], int size) override {
+        int sum = 0;
+        for (int i = 0; i < size; i++) sum += arr[i];
+        return sum;
+    }
+};
+
+class ProductFolder : public Folder {
+public:
+    int fold(int arr[], int size) override {
+        int p = 1;
+        for (int i = 0; i < size; i++) p *= arr[i];
+        return p;
+    }
+};
+
+int main() {
+    setlocale(LC_ALL, "ru");
+    int size;
+    cout << "Размер массива: ";
+    cin >> size;
+    int* arr = new int[size];
+    cout << "Введите элементы: ";
+    for (int i = 0; i < size; i++) cin >> arr[i];
+    
+    SumFolder s;
+    ProductFolder p;
+    
+    cout << "Сумма: " << s.fold(arr, size) << endl;
+    cout << "Произведение: " << p.fold(arr, size) << endl;
+    delete[] arr;
+}
+
+// 4 --------------------
+#include <iostream>
+using namespace std;
+
+class Folder {
+public:
+    virtual int fold(int arr[], int size) = 0;
+};
+
+class EvenCount : public Folder {
+public:
+    int fold(int arr[], int size) override {
+        int cnt = 0;
+        for (int i = 0; i < size; i++) 
+            if (arr[i] % 2 == 0) cnt++;
+        return cnt;
+    }
+};
+
+class OddCount : public Folder {
+public:
+    int fold(int arr[], int size) override {
+        int cnt = 0;
+        for (int i = 0; i < size; i++) 
+            if (arr[i] % 2 != 0) cnt++;
+        return cnt;
+    }
+};
+
+int main() {
+    setlocale(LC_ALL, "russian");
+    int size;
+    cout << "Размер массива: ";
+    cin >> size;
+    int* arr = new int[size];
+    cout << "Введите элементы: ";
+    for (int i = 0; i < size; i++) cin >> arr[i];
+    
+    EvenCount e;
+    OddCount o;
+    
+    cout << "Четные: " << e.fold(arr, size) << endl;
+    cout << "Нечетные: " << o.fold(arr, size) << endl;
+    delete[] arr;
+}
+
+// 5 --------------------
+#include <iostream>
+using namespace std;
+
+bool isPrime(int n) {
+    if (n <= 1) return false;
+    for (int i = 2; i*i <= n; i++)
+        if (n % i == 0) return false;
+    return true;
+}
+
+class Folder {
+public:
+    virtual int fold(int arr[], int size) = 0;
+};
+
+class PrimeCount : public Folder {
+public:
+    int fold(int arr[], int size) override {
+        int cnt = 0;
+        for (int i = 0; i < size; i++)
+            if (isPrime(arr[i])) cnt++;
+        return cnt;
+    }
+};
+
+class NonPrimeCount : public Folder {
+public:
+    int fold(int arr[], int size) override {
+        int cnt = 0;
+        for (int i = 0; i < size; i++)
+            if (!isPrime(arr[i])) cnt++;
+        return cnt;
+    }
+};
+
+int main() {
+    setlocale(LC_ALL, "ru");
+    int size;
+    cout << "Размер массива: ";
+    cin >> size;
+    int* arr = new int[size];
+    cout << "Введите элементы: ";
+    for (int i = 0; i < size; i++) cin >> arr[i];
+    
+    PrimeCount p;
+    NonPrimeCount np;
+    
+    cout << "Простые: " << p.fold(arr, size) << endl;
+    cout << "Непростые: " << np.fold(arr, size) << endl;
+    delete[] arr;
+}
+
+// 6 --------------------
+#include <iostream>
+#include <cctype>
+using namespace std;
+
+class StringAnalyzer {
+public:
+    virtual int analyse(string str) = 0;
+};
+
+class LowercaseCount : public StringAnalyzer {
+public:
+    int analyse(string str) override {
+        int cnt = 0;
+        for (char c : str) 
+            if (islower(c)) cnt++;
+        return cnt;
+    }
+};
+
+class UppercaseCount : public StringAnalyzer {
+public:
+    int analyse(string str) override {
+        int cnt = 0;
+        for (char c : str) 
+            if (isupper(c)) cnt++;
+        return cnt;
+    }
+};
+
+int main() {
+    setlocale(LC_ALL, "ru");
+    string s;
+    cout << "Введите строку: ";
+    getline(cin, s);
+    
+    LowercaseCount l;
+    UppercaseCount u;
+    
+    cout << "Строчные: " << l.analyse(s) << endl;
+    cout << "Заглавные: " << u.analyse(s) << endl;
+}
+
+// 7 --------------------
+#include <iostream>
+#include <cctype>
+using namespace std;
+
+class StringAnalyzer {
+public:
+    virtual int analyse(string str) = 0;
+};
+
+class VowelCount : public StringAnalyzer {
+public:
+    int analyse(string str) override {
+        int cnt = 0;
+        for (char c : str) {
+            char lower = tolower(c);
+            if (lower == 'a' || lower == 'e' || lower == 'i' || lower == 'o' || lower == 'u')
+                cnt++;
+        }
+        return cnt;
+    }
+};
+
+class ConsonantCount : public StringAnalyzer {
+public:
+    int analyse(string str) override {
+        int cnt = 0;
+        for (char c : str) {
+            char lower = tolower(c);
+            if (isalpha(c) && !(lower == 'a' || lower == 'e' || lower == 'i' || lower == 'o' || lower == 'u'))
+                cnt++;
+        }
+        return cnt;
+    }
+};
+
+int main() {
+    setlocale(LC_ALL, "ru");
+    string s;
+    cout << "Введите строку: ";
+    getline(cin, s);
+    
+    VowelCount v;
+    ConsonantCount c;
+    
+    cout << "Гласные: " << v.analyse(s) << endl;
+    cout << "Согласные: " << c.analyse(s) << endl;
+}
