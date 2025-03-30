@@ -30,12 +30,12 @@ int main() {
     setlocale(LC_ALL, "ru");
 
     int size;
-    cout << "Размер массива: ";
+    cout << "Размер массива: " << endl;
     cin >> size;
     
     int* pop = new int[size];
 
-    cout << "Введите элементы: ";
+    cout << "Введите элементы: " << endl;
     for (int i = 0; i < size; i++) cin >> pop[i];
     
     Sum s;
