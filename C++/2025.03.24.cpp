@@ -32,7 +32,7 @@ int main() {
         cout << a / b;
     }
     catch (const InvalidInput&) {
-        ;
+        cout << "ошибка: вводить только числа" << endl;
     }
     catch (const DivisionByZero&) {
         cout << "ошибка: нельзя делить на 0" << endl;
